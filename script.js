@@ -52,6 +52,17 @@ function calcularAlimentacao(qtdePessoas){
     console.log(`O custo diário com alimentação é de R$${custoAlimentacao.toFixed(2)}`)
 }
 
+let complexidade = {
+    nivelUm: "Pintura Simples",
+    nivelDois: "Pintura Intermediária",
+    nivelTres: "Pintura Completa",
+    nivelQuatro: "Pintura expecializada"
+}
+let nivelComplexidade = Object.values(complexidade)
+
+console.log(nivelComplexidade)
+
+
 calcularDiarias(1800.00)
 calcularTransporte(1, "Carro")
 calcularFuncionarios(1, 1)
