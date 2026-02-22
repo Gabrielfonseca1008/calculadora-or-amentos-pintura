@@ -31,8 +31,28 @@ function calcularTransporte(diasEstimados, deslocamento) {
         } else {
             console.log("Tipo de deslocamento inválido.")
         }
-    }
+}
+
+//Para calcular o custo total com funcionários, considerando pintores e ajudantes.
+function calcularFuncionarios(pintores, ajudantes){
+    let diariaPintor = 200
+    let diariaAjudante = 100
+
+    let custoTotal = 
+        (pintores * diariaPintor) + 
+        (ajudantes * diariaAjudante)
+
+    console.log(`O custo diário com funcionários é de R$${custoTotal.toFixed(2)}`)
+}
+
+
+function calcularAlimentacao(qtdePessoas){
+    let valorRefeicao = 30.00
+    let custoAlimentacao = qtdePessoas * valorRefeicao
+    console.log(`O custo diário com alimentação é de R$${custoAlimentacao.toFixed(2)}`)
+}
 
 calcularDiarias(1800.00)
-calcularTransporte(20, "Onibus")
-
+calcularTransporte(1, "Carro")
+calcularFuncionarios(1, 1)
+calcularAlimentacao(2)
