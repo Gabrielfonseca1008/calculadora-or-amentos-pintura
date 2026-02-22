@@ -1,36 +1,26 @@
 
 //Para calcular a diária livre ideal
 function calcularDiarias(custoDeVida) {
-    let pretensao = (custoDeVida * 2)
-    let diariaLivre = pretensao / 22
-    console.log(`Sua diária livre ideal é de R$${diariaLivre.toFixed(2)}`)
+    const pretensao = custoDeVida * 2
+    return pretensao / 22 // Considerando média de 22 dias úteis por mês
 }
 
 
 //Para calcular o valor gasto com transporte
-function calcularTransporte(diasEstimados, deslocamento) {
+function calcularTransporteDiario(deslocamento) {
 
-    let tarifasTransporte = {
+    const tarifasTransporte = {
         Uber: 10.00,
         Onibus: 5.70,
         Carro: 24.00
     }
 
-    if(deslocamento === "Uber") {
-            let valorTarifa = tarifasTransporte["Uber"]
-            let transporteUber = valorTarifa * diasEstimados * 2
-            console.log(`O valor gasto com Uber será de R$${transporteUber.toFixed(2)}`)
-        } else if(deslocamento === "Onibus") {
-            let valorTarifa = tarifasTransporte["Onibus"]
-            let transporteOnibus = valorTarifa * diasEstimados * 2
-            console.log(`O valor gasto com Onibus será de R$${transporteOnibus.toFixed(2)}`)
-        } else if(deslocamento === "Carro") {
-            let valorTarifa = tarifasTransporte["Carro"]
-            let transporteCarro = valorTarifa * diasEstimados * 2
-            console.log(`O valor gasto com Carro será de R$${transporteCarro.toFixed(2)}`)
-        } else {
-            console.log("Tipo de deslocamento inválido.")
-        }
+    if (!(deslocamento in tarifasTransporte)) {
+    return 0
+    }
+
+    // ida e volta no mesmo dia
+    return tarifasTransporte[deslocamento] * 2
 }
 
 //Para calcular o custo total com funcionários, considerando pintores e ajudantes.
@@ -38,32 +28,114 @@ function calcularFuncionarios(pintores, ajudantes){
     let diariaPintor = 200
     let diariaAjudante = 100
 
-    let custoTotal = 
-        (pintores * diariaPintor) + 
-        (ajudantes * diariaAjudante)
-
-    console.log(`O custo diário com funcionários é de R$${custoTotal.toFixed(2)}`)
+    return (pintores * diariaPintor) + 
+            (ajudantes * diariaAjudante)
 }
 
 
 function calcularAlimentacao(qtdePessoas){
     let valorRefeicao = 30.00
-    let custoAlimentacao = qtdePessoas * valorRefeicao
-    console.log(`O custo diário com alimentação é de R$${custoAlimentacao.toFixed(2)}`)
+    return qtdePessoas * valorRefeicao
 }
 
-let complexidade = {
-    nivelUm: "Pintura Simples",
-    nivelDois: "Pintura Intermediária",
-    nivelTres: "Pintura Completa",
-    nivelQuatro: "Pintura expecializada"
+const complexidade = {
+    nivelum: { nome: "Pintura Simples", margem: 0.05 },
+    niveldois: { nome: "Pintura Intermediária", margem: 0.10 },
+    niveltres: { nome: "Pintura Completa", margem: 0.20 },
+    nivelquatro: { nome: "Pintura Especializada", margem: 0.30 }
 }
-let nivelComplexidade = Object.values(complexidade)
-
-console.log(nivelComplexidade)
 
 
-calcularDiarias(1800.00)
-calcularTransporte(1, "Carro")
-calcularFuncionarios(1, 1)
-calcularAlimentacao(2)
+function calcularCustoDiarioTotal(
+    pintores,
+    ajudantes,
+    deslocamento,
+    custoDeVida,
+    qtdeEquipe
+){
+
+    const minhaDiaria = calcularDiarias(custoDeVida)
+    const custoEquipe = calcularFuncionarios(pintores, ajudantes)
+    const custoAlimentacao = calcularAlimentacao(qtdeEquipe + 1)
+    const custoTransporte = calcularTransporteDiario(deslocamento)
+
+    return minhaDiaria +
+           custoEquipe +
+           custoAlimentacao +
+           custoTransporte
+}
+
+function calcularCustoTotalObra(
+    diasEstimados,
+    pintores,
+    ajudantes,
+    deslocamento,
+    custoDeVida,
+    qtdeEquipe
+){
+
+    const custoDiario = calcularCustoDiarioTotal(
+        pintores,
+        ajudantes,
+        deslocamento,
+        custoDeVida,
+        qtdeEquipe
+    )
+
+    return custoDiario * diasEstimados
+}
+
+function aplicarMargem(custoTotal, nivelComplexidade){
+
+    const margem = complexidade[nivelComplexidade].margem
+
+    return custoTotal * (1 + margem)
+}
+
+function gerarOrcamentoFinal(
+    diasEstimados,
+    pintores,
+    ajudantes,
+    deslocamento,
+    custoDeVida,
+    nivelComplexidade,
+    qtdeEquipe
+){
+
+    const custoBase = calcularCustoTotalObra(
+        diasEstimados,
+        pintores,
+        ajudantes,
+        deslocamento,
+        custoDeVida,
+        qtdeEquipe
+    )
+
+    const valorFinal = aplicarMargem(custoBase, nivelComplexidade)
+
+    return valorFinal
+}
+
+function calcularOrcamento(){
+
+    const custoDeVida = Number(document.getElementById("custoDeVida").value)
+    const deslocamento = document.getElementById("deslocamento").value
+    const pintores = Number(document.getElementById("pintores").value)
+    const ajudantes = Number(document.getElementById("ajudantes").value)
+    const diasEstimados = Number(document.getElementById("diasEstimados").value)
+    const nivelComplexidade = document.getElementById("complexidade").value
+    const qtdeEquipe = Number(document.getElementById("qtdeEquipe").value)
+
+    const total = gerarOrcamentoFinal(
+        diasEstimados,
+        pintores,
+        ajudantes,
+        deslocamento,
+        custoDeVida,
+        nivelComplexidade,
+        qtdeEquipe
+    )
+
+    document.getElementById("resultado").innerText =
+        `O valor total do orçamento é: R$ ${total.toFixed(2)}`
+}

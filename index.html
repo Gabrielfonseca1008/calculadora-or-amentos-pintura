@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Orçamento</title>
+
+<style>
+
+/* ===== RESET ===== */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ===== BODY ===== */
+body{
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    display:flex;
+    justify-content:center;
+    padding:40px 20px;
+}
+
+/* ===== CONTAINER ===== */
+.container{
+    background:#ffffff;
+    width:100%;
+    max-width:900px;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* ===== TITLE ===== */
+h1{
+    text-align:center;
+    margin-bottom:30px;
+    color:#1e3c72;
+}
+
+/* ===== SECTIONS ===== */
+.section{
+    margin-bottom:25px;
+    padding:20px;
+    border-radius:10px;
+    background:#f5f7fa;
+    border:1px solid #e0e6ed;
+}
+
+.section h2{
+    margin-bottom:15px;
+    color:#2a5298;
+    font-size:18px;
+}
+
+/* ===== INPUTS ===== */
+input, select{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:15px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    font-size:14px;
+    transition:0.3s;
+}
+
+input:focus, select:focus{
+    border-color:#2a5298;
+    outline:none;
+    box-shadow:0 0 5px rgba(42,82,152,0.4);
+}
+
+/* ===== GRID FUNCIONARIOS ===== */
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+/* ===== BUTTON ===== */
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#2a5298;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#1e3c72;
+    transform:scale(1.02);
+}
+
+/* ===== RESULT ===== */
+.resultado{
+    margin-top:25px;
+    padding:20px;
+    background:#e8f0ff;
+    border-left:6px solid #2a5298;
+    font-size:18px;
+    font-weight:bold;
+    color:#1e3c72;
+    border-radius:8px;
+    text-align:center;
+}
+
+/* ===== RESPONSIVO ===== */
+@media(max-width:600px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Calculadora de Orçamento</h1>
+
+<!-- DIÁRIA -->
+<div class="section">
+    <h2>Diária Livre</h2>
+    <label>Digite seu custo de vida atual:</label>
+    <input type="number" id="custoDeVida" placeholder="Ex: 2000.00">
+</div>
+
+<!-- DESLOCAMENTO -->
+<div class="section">
+    <h2>Deslocamento</h2>
+    <label>Qual seu meio de deslocamento?</label>
+    <select id="deslocamento">
+        <option value="">Selecione</option>
+        <option value="Uber">Uber</option>
+        <option value="Onibus">Ônibus</option>
+        <option value="Carro">Carro</option>
+    </select>
+</div>
+
+<!-- FUNCIONÁRIOS -->
+<div class="section">
+    <h2>Funcionários</h2>
+    <div class="grid">
+        <div>
+            <label>Pintores:</label>
+            <input type="number" id="pintores" min="0" value="0">
+        </div>
+        <div>
+            <label>Ajudantes:</label>
+            <input type="number" id="ajudantes" min="0" value="0">
+        </div>
+    </div>
+</div>
+
+<!-- ALIMENTAÇÃO -->
+<div class="section">
+    <h2>Alimentação</h2>
+    <label>Quantas pessoas tem na sua equipe (tirando você)?</label>
+    <input type="number" id="qtdeEquipe" min="0" value="0">
+</div>
+
+<!-- COMPLEXIDADE -->
+<div class="section">
+    <h2>Complexidade</h2>
+    <label>Selecione o nível da obra:</label>
+    <select id="complexidade">
+        <option value="">Selecione</option>
+        <option value="nivelum">Pintura Simples</option>
+        <option value="niveldois">Pintura Intermediária</option>
+        <option value="niveltres">Pintura Completa</option>
+        <option value="nivelquatro">Pintura Especializada</option>
+    </select>
+</div>
+
+<!-- DIAS -->
+<div class="section">
+    <h2>Dias Estimados</h2>
+    <label>Estimativa de dias:</label>
+    <input type="number" id="diasEstimados" min="1">
+</div>
+
+<button onclick="calcularOrcamento()">Calcular Orçamento</button>
+
+<div class="resultado" id="resultado">
+    O valor total do orçamento será exibido aqui.
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
