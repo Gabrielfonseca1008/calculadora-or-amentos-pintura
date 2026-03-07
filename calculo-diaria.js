@@ -51,12 +51,12 @@ function calcularCustoDiarioTotal(
     ajudantes,
     deslocamento,
     custoDeVida,
-    qtdeEquipe
+    qtdePessoas
 ){
 
     const minhaDiaria = calcularDiarias(custoDeVida)
     const custoEquipe = calcularFuncionarios(pintores, ajudantes)
-    const custoAlimentacao = calcularAlimentacao(qtdeEquipe + 1)
+    const custoAlimentacao = calcularAlimentacao(qtdePessoas + 1)
     const custoTransporte = calcularTransporteDiario(deslocamento)
 
     return minhaDiaria +
@@ -71,7 +71,7 @@ function calcularCustoTotalObra(
     ajudantes,
     deslocamento,
     custoDeVida,
-    qtdeEquipe
+    qtdePessoas
 ){
 
     const custoDiario = calcularCustoDiarioTotal(
@@ -79,7 +79,7 @@ function calcularCustoTotalObra(
         ajudantes,
         deslocamento,
         custoDeVida,
-        qtdeEquipe
+        qtdePessoas
     )
 
     return custoDiario * diasEstimados
@@ -99,7 +99,7 @@ function gerarOrcamentoFinal(
     deslocamento,
     custoDeVida,
     nivelComplexidade,
-    qtdeEquipe
+    qtdePessoas
 ){
 
     const custoBase = calcularCustoTotalObra(
@@ -108,7 +108,7 @@ function gerarOrcamentoFinal(
         ajudantes,
         deslocamento,
         custoDeVida,
-        qtdeEquipe
+        qtdePessoas
     )
 
     const valorFinal = aplicarMargem(custoBase, nivelComplexidade)
